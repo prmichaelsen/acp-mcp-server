@@ -1,0 +1,206 @@
+# Project Progress Tracking
+# ACP MCP Server - Package for creating authenticated MCP servers
+
+project:
+  name: acp-mcp-server
+  version: 1.1.0
+  started: 2026-02-21
+  status: in_progress
+  current_milestone: M1
+  description: |
+    ACP package providing patterns, commands, and templates for bootstrapping
+    MCP servers with @prmichaelsen/mcp-auth authentication and multi-tenancy support.
+
+milestones:
+  - id: M1
+    name: Core Package Infrastructure
+    status: completed
+    progress: 100
+    started: 2026-02-21
+    completed: 2026-02-22
+    estimated_weeks: 1
+    tasks_completed: 5
+    tasks_total: 5
+    notes: |
+      Package successfully created and published. All core patterns, commands,
+      and templates are in place. Package installed and tested.
+
+  - id: M2
+    name: Bug Fixes and Improvements
+    status: in_progress
+    progress: 50
+    started: 2026-02-22
+    completed: null
+    estimated_weeks: 1
+    tasks_completed: 1
+    tasks_total: 2
+    notes: |
+      Addressing issues discovered during testing. Priority 1 fix (topic filter)
+      completed. Priority 2 and 3 fixes pending.
+
+tasks:
+  milestone_1:
+    - id: task-1
+      name: Create Package Structure
+      status: completed
+      file: null
+      estimated_hours: 2
+      actual_hours: 2
+      completed_date: 2026-02-21
+      notes: |
+        Created package.yaml, manifest structure, and base files.
+    
+    - id: task-2
+      name: Create Pattern Documents
+      status: completed
+      file: null
+      estimated_hours: 8
+      actual_hours: 8
+      completed_date: 2026-02-22
+      notes: |
+        Created 18 pattern documents covering all aspects of mcp-auth server setup.
+    
+    - id: task-3
+      name: Create Command Documents
+      status: completed
+      file: null
+      estimated_hours: 6
+      actual_hours: 6
+      completed_date: 2026-02-22
+      notes: |
+        Created 10 command documents for initialization, deployment, and maintenance.
+    
+    - id: task-4
+      name: Create Requirements Document
+      status: completed
+      file: agent/design/requirements.md
+      estimated_hours: 4
+      actual_hours: 4
+      completed_date: 2026-02-21
+      notes: |
+        Comprehensive requirements document covering all package features.
+    
+    - id: task-5
+      name: Package Testing and Publishing
+      status: completed
+      file: null
+      estimated_hours: 2
+      actual_hours: 2
+      completed_date: 2026-02-22
+      notes: |
+        Package installed successfully, all files deployed correctly.
+
+  milestone_2:
+    - id: task-6
+      name: Fix Package Search Topic Filter
+      status: completed
+      file: null
+      estimated_hours: 1
+      actual_hours: 1
+      completed_date: 2026-02-22
+      notes: |
+        Fixed acp.package-search.sh to filter by acp-package topic.
+        Bug documented in BUG_REPORT_acp_package_search.md.
+    
+    - id: task-7
+      name: Fix Package Search Counter and Metadata
+      status: not_started
+      file: null
+      estimated_hours: 2
+      actual_hours: null
+      completed_date: null
+      notes: |
+        Need to fix counter subshell issue and metadata parsing.
+        See BUG_REPORT_acp_package_search.md for details.
+
+documentation:
+  design_documents: 1
+  milestone_documents: 0
+  pattern_documents: 18
+  task_documents: 0
+  last_updated: 2026-02-22
+
+progress:
+  planning: 100
+  implementation: 95
+  testing: 80
+  documentation: 100
+  overall: 95
+
+recent_work:
+  - date: 2026-02-22
+    description: |
+      Initialization and bug discovery session. Fixed critical package search
+      topic filter bug. Documented remaining issues.
+    items:
+      - ✅ Ran @acp.init command
+      - ✅ Discovered package search script issues
+      - ✅ Fixed topic filter bug (Priority 1)
+      - ✅ Created comprehensive bug report
+      - 📋 Counter and metadata parsing issues remain (Priority 2-3)
+  
+  - date: 2026-02-22
+    description: |
+      Package installation and testing. Successfully installed mcp-auth-server-base
+      package with all patterns and commands.
+    items:
+      - ✅ Installed package via acp.package-install
+      - ✅ Verified all 18 patterns installed
+      - ✅ Verified all 10 commands installed
+      - ✅ Updated manifest.yaml
+  
+  - date: 2026-02-21
+    description: |
+      Initial package creation. Created comprehensive requirements document
+      and package structure.
+    items:
+      - ✅ Created requirements.md
+      - ✅ Defined package scope and features
+      - ✅ Planned patterns and commands
+      - ✅ Set up package.yaml
+
+next_steps:
+  - Fix package search counter issue (subshell problem)
+  - Fix package search metadata parsing (description, tags, stars)
+  - Test package search with multiple results
+  - Consider adding debug mode to package search script
+  - Review and update any stale documentation
+
+notes:
+  - This is an ACP package project, not a typical application
+  - Package provides templates and patterns for other projects
+  - Successfully installed and tested with mcp-auth-server-base package
+  - Bug report created for package search issues
+  - No progress.yaml existed before - created during @acp.init
+
+current_blockers: []
+
+team:
+  - role: Lead Developer
+    name: Agent
+    focus: |
+      Bug fixes for package search script, maintaining package quality
+
+dependencies:
+  external_services:
+    - name: GitHub API
+      status: configured
+      notes: |
+        Used for package search functionality. Public API, no token required.
+  
+  libraries:
+    - name: bash
+      version: system
+      purpose: |
+        All scripts written in bash for portability
+  
+  infrastructure:
+    - name: GitHub Repository
+      status: ready
+      notes: |
+        Package hosted on GitHub with acp-package topic
+
+quality:
+  test_coverage: 0
+  code_review_status: pending
+  documentation_status: complete
