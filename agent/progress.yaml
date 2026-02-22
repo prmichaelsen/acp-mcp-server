@@ -28,15 +28,15 @@ milestones:
   - id: M2
     name: Bug Fixes and Improvements
     status: in_progress
-    progress: 50
+    progress: 67
     started: 2026-02-22
     completed: null
     estimated_weeks: 1
-    tasks_completed: 1
+    tasks_completed: 2
     tasks_total: 3
     notes: |
       Addressing issues discovered during testing. Priority 1 fix (topic filter)
-      completed. Priority 2 and 3 fixes pending.
+      completed. Task-8 completed (@prmichaelsen/acp-mcp installed). Priority 2-3 fixes pending.
 
 tasks:
   milestone_1:
@@ -115,14 +115,15 @@ tasks:
     
     - id: task-8
       name: Wait for acp-server MCP Package to be Published
-      status: not_started
+      status: completed
       file: agent/tasks/task-8-wait-for-acp-server-package.md
-      estimated_hours: null
-      actual_hours: null
-      completed_date: null
+      estimated_hours: 0
+      actual_hours: 0
+      completed_date: 2026-02-22
       notes: |
-        Blocking task - waiting for external package publication.
-        Can work on other tasks while waiting.
+        Package @prmichaelsen/acp-mcp installed and available.
+        This is the core library that exports server factory.
+        No longer blocking.
 
 documentation:
   design_documents: 1
@@ -139,6 +140,22 @@ progress:
   overall: 95
 
 recent_work:
+  - date: 2026-02-22
+    description: |
+      Agent context initialization. Loaded all documentation, reviewed source code,
+      verified project status. Marked task-8 complete. ACP update available (3.9.0 → 3.10.1).
+    items:
+      - ✅ Checked for ACP updates (3.10.1 available)
+      - ✅ Read all agent documentation (progress.yaml, requirements.md, patterns, commands)
+      - ✅ Reviewed key source files (index.ts, auth/provider.ts, config/environment.ts)
+      - ✅ Verified package installation (mcp-auth-server-base v1.1.0, acp-core v3.9.0)
+      - ✅ Verified @prmichaelsen/acp-mcp installed (task-8 complete)
+      - ✅ No global packages found
+      - ✅ Documentation is current and accurate
+      - ✅ Updated progress.yaml with initialization entry
+      - ✅ Marked task-8 as completed
+      - ℹ️  Project status: M2 in progress (67% complete, 2/3 tasks done)
+  
   - date: 2026-02-22
     description: |
       Initialization and bug discovery session. Fixed critical package search
