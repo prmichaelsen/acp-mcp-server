@@ -10,7 +10,7 @@ console.log('🚀 Starting ACP MCP server...');
 console.log('📋 Configuration:');
 console.log(`   - Platform: ${env.PLATFORM_URL}`);
 console.log(`   - CORS Origin: ${env.CORS_ORIGIN}`);
-console.log(`   - JWT Secret: ${env.JWT_SECRET.substring(0, 10)}...`);
+console.log(`   - Service Token: ${env.PLATFORM_SERVICE_TOKEN.substring(0, 10)}...`);
 
 // Create authenticated MCP server
 const server = new AuthenticatedMCPServer({
@@ -18,9 +18,10 @@ const server = new AuthenticatedMCPServer({
   version: '1.0.0',
   
   // JWT authentication provider
+  // Uses PLATFORM_SERVICE_TOKEN as the JWT secret (agentbase.me signs JWTs with this)
   authProvider: new JWTAuthProvider({
-    jwtSecret: env.JWT_SECRET,
-    userIdClaim: 'sub'
+    jwtSecret: env.PLATFORM_SERVICE_TOKEN,
+    userIdClaim: 'userId' // agentbase.me uses 'userId', not 'sub'
   }),
   
   // API-based token resolver for per-user credentials

@@ -5,7 +5,7 @@ export const jwtAuthProvider = {
   async authenticate(token: string) {
     try {
       // Specify allowed algorithms to prevent algorithm confusion attacks
-      const decoded = jwt.verify(token, env.JWT_SECRET, {
+      const decoded = jwt.verify(token, env.PLATFORM_SERVICE_TOKEN, {
         algorithms: ['HS256', 'RS256'], // Allow common secure algorithms
         maxAge: '24h', // Enforce token expiration
       }) as {
