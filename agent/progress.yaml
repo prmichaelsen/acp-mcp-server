@@ -33,7 +33,7 @@ milestones:
     completed: null
     estimated_weeks: 1
     tasks_completed: 1
-    tasks_total: 2
+    tasks_total: 3
     notes: |
       Addressing issues discovered during testing. Priority 1 fix (topic filter)
       completed. Priority 2 and 3 fixes pending.
@@ -112,6 +112,17 @@ tasks:
       notes: |
         Need to fix counter subshell issue and metadata parsing.
         See BUG_REPORT_acp_package_search.md for details.
+    
+    - id: task-8
+      name: Wait for acp-server MCP Package to be Published
+      status: not_started
+      file: agent/tasks/task-8-wait-for-acp-server-package.md
+      estimated_hours: null
+      actual_hours: null
+      completed_date: null
+      notes: |
+        Blocking task - waiting for external package publication.
+        Can work on other tasks while waiting.
 
 documentation:
   design_documents: 1
