@@ -35,6 +35,8 @@ steps:
       - '--update-secrets=PLATFORM_SERVICE_TOKEN=acp-mcp-server-platform-service-token:latest'
       - '--update-secrets=PLATFORM_URL=acp-mcp-server-platform-url:latest'
       - '--update-secrets=CORS_ORIGIN=acp-mcp-server-cors-origin:latest'
+      - '--set-env-vars=ACP_MCP_LOG_LEVEL=debug'
+      - '--set-env-vars=ACP_MCP_DEBUG=true'
 
 images:
   - 'gcr.io/$PROJECT_ID/acp-mcp-server:$SHORT_SHA'
