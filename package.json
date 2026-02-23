@@ -1,6 +1,6 @@
 {
   "name": "acp-mcp-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Support remote machine development using ACP methodology",
   "type": "module",
   "main": "dist/index.js",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
-    "@prmichaelsen/acp-mcp": "^0.5.0",
+    "@prmichaelsen/acp-mcp": "^0.5.1",
     "@prmichaelsen/mcp-auth": "^7.0.4",
     "cors": "^2.8.5",
     "express": "^4.18.0",
