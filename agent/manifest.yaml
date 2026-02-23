@@ -161,9 +161,9 @@ packages:
       designs: []
   acp-core:
     source: https://github.com/prmichaelsen/agent-context-protocol.git
-    package_version: 3.9.0
+    package_version: 3.11.0
     installed_at: 2026-02-22T20:55:16Z
-    updated_at: 2026-02-22T20:55:16Z
+    updated_at: 2026-02-23T17:41:45Z
     files:
       commands:
         - name: acp.command-create.md
@@ -200,4 +200,4 @@ packages:
         - name: design.template.md
         - name: requirements.template.md
 manifest_version: 1.0.0
-last_updated: 2026-02-22T20:57:17Z
+last_updated: 2026-02-23T17:41:45Z
