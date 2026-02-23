@@ -6,9 +6,11 @@
  * This server wraps acp-mcp with authentication and multi-tenancy support.
  */
 
-import { wrapServer, JWTAuthProvider, APITokenResolver } from '@prmichaelsen/mcp-auth';
+import { wrapServer } from '@prmichaelsen/mcp-auth';
 import { createServer } from '@prmichaelsen/acp-mcp/factory';
 import { env } from './config/environment.js';
+import { PlatformJWTProvider } from './auth/platform-jwt-provider.js';
+import { PlatformTokenResolver } from './auth/platform-token-resolver.js';
 
 // Configuration
 const config = {
@@ -32,25 +34,71 @@ if (!config.platform.url) {
   process.exit(1);
 }
 
+// Create auth provider
+const authProvider = new PlatformJWTProvider({
+  serviceToken: config.platform.serviceToken,
+  issuer: 'agentbase.me',
+  audience: 'mcp-server',
+  userIdClaim: 'userId',
+  cacheResults: true,
+  cacheTtl: 60000 // 60 seconds
+});
+
+// Create token resolver
+const tokenResolver = new PlatformTokenResolver({
+  platformUrl: config.platform.url,
+  authProvider,
+  cacheTokens: true,
+  cacheTtl: 300000 // 5 minutes
+});
+
 // Wrap server with authentication
 const wrappedServer = wrapServer({
   serverFactory: async (accessToken: string, userId: string) => {
     console.log(`📦 Creating server instance for user: ${userId}`);
     
-    // Parse SSH credentials from the access token (JSON string)
-    // agentbase.me stores SSH credentials as JSON in the access_token field
-    let sshConfig;
+    // Parse credentials from JSON string
+    // The token resolver returns the full credentials object as JSON
+    let credentials;
     try {
-      const credentials = JSON.parse(accessToken);
-      sshConfig = {
-        host: credentials.ssh_host || credentials.host,
-        port: credentials.ssh_port || credentials.port || 22,
-        username: credentials.ssh_username || credentials.username,
-        privateKey: credentials.ssh_private_key || credentials.privateKey,
-      };
+      credentials = JSON.parse(accessToken);
     } catch (error) {
-      throw new Error(`Failed to parse SSH credentials: ${error instanceof Error ? error.message : 'Invalid JSON'}`);
+      throw new Error(`Failed to parse credentials: ${error instanceof Error ? error.message : 'Invalid JSON'}`);
     }
+    
+    // Extract SSH configuration from credentials
+    // API returns: { access_token: "SSH_KEY", remote_url: "host:port", system_username: "username" }
+    
+    // Parse host and port from remote_url (might be "host:port" or just "host")
+    let host = credentials.remote_url;
+    let port = 22;
+    if (host && host.includes(':')) {
+      const parts = host.split(':');
+      host = parts[0];
+      port = parseInt(parts[1]) || 22;
+    }
+    
+    // Extract private key from credentials
+    // The access_token field should contain the SSH private key in proper PEM format
+    const privateKey = credentials.access_token;
+    
+    const sshConfig = {
+      host,
+      port,
+      username: credentials.system_username,
+      privateKey,
+    };
+    
+    // Validate required fields
+    if (!sshConfig.host || !sshConfig.username || !sshConfig.privateKey) {
+      throw new Error(`Invalid SSH credentials: missing required fields (host: ${!!sshConfig.host}, username: ${!!sshConfig.username}, privateKey: ${!!sshConfig.privateKey})`);
+    }
+    
+    console.log(`🔐 SSH Config for ${userId}:`);
+    console.log(`   - Host: ${sshConfig.host}`);
+    console.log(`   - Port: ${sshConfig.port}`);
+    console.log(`   - Username: ${sshConfig.username}`);
+    console.log(`   - Private Key: ${sshConfig.privateKey.substring(0, 50)}...`);
     
     // Validate SSH configuration
     if (!sshConfig.host || !sshConfig.username || !sshConfig.privateKey) {
@@ -71,17 +119,9 @@ const wrappedServer = wrapServer({
     console.log(`✅ Server created for user: ${userId}`);
     return server;
   },
-  authProvider: new JWTAuthProvider({
-    jwtSecret: config.platform.serviceToken,
-    userIdClaim: 'userId', // agentbase.me uses 'userId', not 'sub'
-  }),
-  tokenResolver: new APITokenResolver({
-    tenantManagerUrl: config.platform.url,
-    serviceToken: config.platform.serviceToken,
-    cacheTokens: true,
-    cacheTtl: 300000, // 5 minutes
-  }),
-  resourceType: 'acp-remote-dev',
+  authProvider,
+  tokenResolver,
+  resourceType: 'acp',
   transport: {
     type: 'sse',
     port: config.server.port,
