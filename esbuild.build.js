@@ -1,17 +1,3 @@
-import * as esbuild from 'esbuild';
-
-await esbuild.build({
-  entryPoints: ['src/index.ts'],
-  bundle: true,
-  outfile: 'dist/index.js',
-  format: 'esm',
-  platform: 'node',
-  target: 'node20',
-  sourcemap: true,
-  packages: 'external',
-  banner: {
-    js: "import { createRequire } from 'module';const require = createRequire(import.meta.url);",
-  },
-});
-
-console.log('✅ Build complete');
+// Build script replaced with TypeScript compiler
+// Run: npm run build (which runs tsc)
+console.log('Use "npm run build" to compile TypeScript');
