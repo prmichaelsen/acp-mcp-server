@@ -1,6 +1,6 @@
 {
   "name": "acp-mcp-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Support remote machine development using ACP methodology",
   "type": "module",
   "main": "dist/index.js",

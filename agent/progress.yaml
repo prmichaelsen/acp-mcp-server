@@ -28,15 +28,17 @@ milestones:
   - id: M2
     name: Bug Fixes and Improvements
     status: in_progress
-    progress: 67
+    progress: 75
     started: 2026-02-22
     completed: null
     estimated_weeks: 1
-    tasks_completed: 2
-    tasks_total: 3
+    tasks_completed: 3
+    tasks_total: 4
     notes: |
       Addressing issues discovered during testing. Priority 1 fix (topic filter)
-      completed. Task-8 completed (@prmichaelsen/acp-mcp installed). Priority 2-3 fixes pending.
+      completed. Task-8 completed (@prmichaelsen/acp-mcp installed). Task-9 completed
+      (acp-mcp file access issue investigated - root cause found and documented).
+      Priority 2-3 fixes pending (task-7).
 
 tasks:
   milestone_1:
@@ -124,6 +126,18 @@ tasks:
         Package @prmichaelsen/acp-mcp installed and available.
         This is the core library that exports server factory.
         No longer blocking.
+    
+    - id: task-9
+      name: Investigate acp-mcp File Access Issue
+      status: completed
+      file: agent/tasks/task-9-investigate-acp-mcp-file-access-issue.md
+      estimated_hours: 3-4
+      actual_hours: 1.5
+      completed_date: 2026-02-23
+      notes: |
+        ✅ COMPLETED: Root cause identified - path format mismatch between list_files
+        (returns relative paths) and read_file (expects absolute paths). Created detailed
+        investigation report and posted solution to GitHub issue #1.
 
 documentation:
   design_documents: 1
@@ -140,6 +154,48 @@ progress:
   overall: 95
 
 recent_work:
+  - date: 2026-02-23
+    description: |
+      Task 9 completed: Investigated acp-mcp file access issue (GitHub #1). Root cause
+      identified and documented. Posted detailed solution to GitHub issue.
+    items:
+      - ✅ Reviewed GitHub issue #1 (file access problem in acp-mcp)
+      - ✅ Searched acp-mcp repository source code via GitHub API
+      - ✅ Analyzed acp-remote-list-files.ts implementation
+      - ✅ Analyzed acp-remote-read-file.ts implementation
+      - ✅ Analyzed ssh-connection.ts (SFTP wrapper)
+      - ✅ Identified root cause: path format mismatch (relative vs absolute)
+      - ✅ Created comprehensive investigation report (agent/reports/acp-mcp-file-access-investigation.md)
+      - ✅ Posted detailed solution to GitHub issue #1 with code fix
+      - ✅ Documented 3 alternative solutions with pros/cons
+      - ✅ Provided implementation plan and test cases
+      - ✅ Updated progress.yaml (task-9 completed, M2 now 75% complete)
+      - ℹ️  Fix complexity: Low (simple path handling change)
+      - ℹ️  Recommended: Return absolute paths from list_files (breaking change → v0.5.0)
+  
+  - date: 2026-02-23
+    description: |
+      Agent context initialization via @acp.init command. Comprehensive context loading,
+      source code review, and status verification.
+    items:
+      - ✅ Checked for ACP updates (AGENT.md is up to date - v3.11.0)
+      - ✅ Read all agent documentation (progress.yaml, requirements.md, agentbase-integration.md, manifest.yaml)
+      - ✅ Discovered global packages (acp-core v3.10.1 in ~/.acp/agent/)
+      - ✅ Verified local packages (mcp-auth-server-base v1.1.0, acp-core v3.11.0)
+      - ✅ Read task-8 (acp-mcp package dependency - marked complete)
+      - ✅ Reviewed 18 pattern documents (mcp-auth-server-base patterns)
+      - ✅ Reviewed key source files (index.ts, platform-jwt-provider.ts, platform-token-resolver.ts, config/environment.ts)
+      - ✅ Reviewed package.json (dependencies: @prmichaelsen/acp-mcp v0.4.1, mcp-auth v7.0.4)
+      - ✅ Read critical bug reports (acp-mcp-cloud-deployment-blocker, integration-issues, auth-provider-issues)
+      - ✅ Read CHANGELOG.md (v1.0.1 - fixed authentication and upgraded dependencies)
+      - ✅ Read README.md (deployment and architecture documentation)
+      - ✅ Documentation is current and accurate
+      - ✅ Updated progress.yaml with initialization entry
+      - ℹ️  Project status: M2 in progress (67% complete, 2/3 tasks done)
+      - ℹ️  Current version: v1.0.1 (upgraded mcp-auth to v7.0.4, acp-mcp to v0.4.1)
+      - ℹ️  Critical blocker resolved: Upgraded from @prmichaelsen/acp-mcp v0.2.0 to v0.4.1
+      - ℹ️  Authentication working: Custom PlatformJWTProvider and PlatformTokenResolver implemented
+  
   - date: 2026-02-23
     description: |
       Agent context initialization via @acp.init command. Comprehensive context loading,
@@ -208,10 +264,10 @@ recent_work:
       - ✅ Set up package.yaml
 
 next_steps:
-  - Fix package search counter issue (subshell problem)
-  - Fix package search metadata parsing (description, tags, stars)
+  - Complete task-7: Fix package search counter and metadata parsing
+  - Monitor GitHub issue #1 for feedback on proposed fix
+  - Consider implementing the fix in a PR if requested
   - Test package search with multiple results
-  - Consider adding debug mode to package search script
   - Review and update any stale documentation
 
 notes:
